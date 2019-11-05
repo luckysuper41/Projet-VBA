@@ -1,0 +1,31 @@
+Option Explicit
+
+
+'le module pour afficher la position du Porte_avions que le joueur2 selecte sur le worksheet Joueur2
+
+
+Sub Bateau2_5_Sub()
+    Dim Range As Range
+    Dim Question As Variant
+    Set Range = Selection
+    If Range.Count = 5 Then
+        Question = MsgBox("Est-ce que vous voulez placer Porte_avions ici?", vbQuestion + vbYesNoCancel, "Place de Porte avions")
+        If Question = vbYes Then
+            If Total_2 < 5 Then
+                Selection.Interior.ColorIndex = 4
+                Selection.Name = "Bateaude5"
+                Total_2 = Total_2 + 1
+                Total2_5 = Total2_5 + 1
+                
+                Call remplir_cordonnee_bateau(bateau5_2)
+                Call ajouter_bateau_a_carte(bateau5_2, Ocean_Joueur2, 5)
+                
+            End If
+        ElseIf Question = vbNo Then
+            Exit Sub
+        Else
+            PlacerBateau_Joueur2.Show
+        End If
+    End If
+            
+End Sub

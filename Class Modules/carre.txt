@@ -1,0 +1,48 @@
+Option Explicit
+
+Enum Status_enum
+    eau
+    recupere
+    coule
+    mal_touche
+End Enum
+    
+
+Private px As String
+Private py As String
+Private cStatus  As Status_enum
+'
+----------------------
+
+'PROPERTY X
+
+Property Get x() As String
+    x = px
+End Property
+------------------------------
+Property Let x(value As String)
+    px = value
+End Property
+-----------------------
+'PROPERTY Y
+
+Property Get y() As String
+    y = py
+End Property
+--------------------------
+Property Let y(value As String)
+    py = value
+End Property
+----------------------
+'PROPERTY status
+
+Property Get Status() As Status_enum
+    Status = cStatus
+End Property
+-------------------------------------
+Property Let Status(value As Status_enum)
+    cStatus = value
+End Property
+------------------------------
+
+

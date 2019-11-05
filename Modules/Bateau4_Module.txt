@@ -1,0 +1,28 @@
+Option Explicit
+
+'le module pour afficher la position du Croiseur que le joueur1 selecte sur le worksheet Joueur1
+Sub Bateau4_Sub()
+    Dim Range As Range
+    Dim Question As Variant
+    Set Range = Selection
+    If Range.Count = 4 Then
+        Question = MsgBox("Est-ce que vous voulez placer le Croiseur ici?", vbQuestion + vbYesNoCancel, "Place du Croiseur ")
+        If Question = vbYes Then
+            If Total < 5 Then
+                Selection.Interior.ColorIndex = 4
+                Selection.Name = "Bateaude4"
+                Total = Total + 1
+                Total4 = Total4 + 1
+                
+                Call remplir_cordonnee_bateau(bateau4_1)
+                Call ajouter_bateau_a_carte(bateau4_1, Ocean_Joueur1, 4)
+                
+            End If
+        ElseIf Question = vbNo Then
+            Exit Sub
+        Else
+            PlacerBateau_Joueur1.Show
+        End If
+    End If
+            
+End Sub

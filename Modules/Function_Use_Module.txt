@@ -1,0 +1,305 @@
+Option Explicit
+
+' remplir cordonne d'ocean
+' la variable premier_colonne est utilisé pour indiquer la premiere colonne que la carte va se situer
+Public Sub remplir_cordonnee_ocean(ocean() As Variant, premiere_rang As Integer, premiere_colonne As Integer)
+    Dim i As Integer, j As Integer
+    For i = 1 To 10
+        For j = 1 To 10
+            Set ocean(i, j) = New carre
+            ocean(i, j).x = i + premiere_rang - 1
+            ocean(i, j).y = j + premiere_colonne - 1
+            ocean(i, j).Status = eau
+        Next
+    Next
+End Sub
+
+' Procédure Mise à Jour la carte Ocean
+Public Sub mise_a_jour_carte(ocean() As Variant)
+    Dim i As Integer, j As Integer
+    Dim a As Integer, b As Integer
+    For i = 1 To 10
+        For j = 1 To 10
+            a = ocean(i, j).x
+            b = ocean(i, j).y
+            Select Case (ocean(i, j).Status)
+                Case eau:
+                    ActiveSheet.Cells(a, b).Interior.Color = CouleurEau
+                Case recupere
+                    ActiveSheet.Cells(a, b).Interior.Color = CouleurRecupere
+                Case coule
+                    ActiveSheet.Cells(a, b).Interior.Color = CouleurCoule
+                    ActiveSheet.Cells(a, b).value = "x"
+                Case mal_touche
+                    ActiveSheet.Cells(a, b).Interior.Color = CouleurMalTouche
+                Case Else
+                    ActiveSheet.Cells(a, b).Interior.Color = 0  ' noir
+            End Select
+        Next
+    Next
+End Sub
+
+' Procédure pour reinitialiser la feuille
+Public Sub reinit(Feuille As String)
+    Dim i As Integer
+    Dim j As Integer
+    ThisWorkbook.Worksheets(Feuille).Activate
+    ThisWorkbook.Worksheets(Feuille).Range("A1:Z10").Interior.Color = RGB(255, 255, 255)
+    ThisWorkbook.Worksheets(Feuille).Range("A1:Z10").ClearContents
+    For i = 1 To 10
+        For j = 1 To 10
+        
+            Set Ocean_Joueur1(i, j) = New carre
+            Set Ocean_Joueur2(i, j) = New carre
+        Next
+    Next
+    Total = 0
+    Total2 = 0
+    Total3 = 0
+    Total4 = 0
+    Total5 = 0
+    Total_2 = 0
+    Total2_5 = 0
+    Total2_4 = 0
+    Total2_3 = 0
+    Total2_2 = 0
+End Sub
+
+' Procedure pour remplir cordonne bateau à partir de la zone selectionne
+Public Sub remplir_cordonnee_bateau(bateau() As Variant)
+    Dim i As Integer
+    Dim RangeInCell As String
+    Dim Rng As Range
+    Dim cel As Range
+    i = 0
+
+    RangeInCell = Selection.Address
+    Set Rng = Range(RangeInCell)
+
+    For Each cel In Rng
+        Set bateau(i) = New carre
+        bateau(i).x = Range(cel.Address).Row
+        bateau(i).y = Range(cel.Address).Column
+        bateau(i).Status = recupere
+        i = i + 1
+    Next cel
+End Sub
+
+Public Sub ajouter_bateau_a_carte(bateau() As Variant, ocean() As Variant, dimension As Integer)
+    Dim i As Integer
+    Dim a As Integer, b As Integer
+    For i = 0 To dimension - 1
+        a = bateau(i).x
+        b = bateau(i).y
+        Set ocean(a, b) = New carre
+        ocean(a, b).x = a
+        ocean(a, b).y = b
+        ocean(a, b).Status = recupere
+    Next
+End Sub
+
+Public Sub comparer(rang As Integer, colonne As Integer, ocean() As Variant)
+    If ocean(rang, colonne).Status = recupere Then
+        ocean(rang, colonne).Status = coule
+    ElseIf ocean(rang, colonne).Status = eau Then
+        ocean(rang, colonne).Status = mal_touche
+    End If
+End Sub
+
+Public Sub bateau_jouer1_touche(rang As Integer, colonne As Integer)
+    Dim i As Integer
+    For i = 0 To 4
+        If (bateau5_1(i).x = rang And bateau5_1(i).y = colonne) Then
+            Set bateau5_1(i) = New carre
+            bateau5_1(i).x = rang
+            bateau5_1(i).y = colonne
+            bateau5_1(i).Status = coule
+            Exit Sub
+        End If
+    Next
+    For i = 0 To 3
+        If (bateau4_1(i).x = rang And bateau4_1(i).y = colonne) Then
+            Set bateau4_1(i) = New carre
+            bateau4_1(i).x = rang
+            bateau4_1(i).y = colonne
+            bateau4_1(i).Status = coule
+            Exit Sub
+        End If
+    Next
+    For i = 0 To 2
+        If (bateau31_1(i).x = rang And bateau31_1(i).y = colonne) Then
+            Set bateau31_1(i) = New carre
+            bateau31_1(i).x = rang
+            bateau31_1(i).y = colonne
+            bateau31_1(i).Status = coule
+            Exit Sub
+        End If
+    Next
+    For i = 0 To 2
+        If (bateau32_1(i).x = rang And bateau32_1(i).y = colonne) Then
+            Set bateau32_1(i) = New carre
+            bateau32_1(i).x = rang
+            bateau32_1(i).y = colonne
+            bateau32_1(i).Status = coule
+            Exit Sub
+        End If
+    Next
+    For i = 0 To 1
+        If (bateau2_1(i).x = rang And bateau2_1(i).y = colonne) Then
+            Set bateau2_1(i) = New carre
+            bateau2_1(i).x = rang
+            bateau2_1(i).y = colonne
+            bateau2_1(i).Status = coule
+            Exit Sub
+        End If
+    Next
+End Sub
+
+Public Sub bateau_jouer2_touche(rang As Integer, colonne As Integer)
+    Dim i As Integer
+    For i = 0 To 4
+        If (bateau5_2(i).x = rang And bateau5_2(i).y = colonne) Then
+            Set bateau5_2(i) = New carre
+            bateau5_2(i).x = rang
+            bateau5_2(i).y = colonne
+            bateau5_2(i).Status = coule
+            Exit Sub
+        End If
+    Next
+    For i = 0 To 3
+        If (bateau4_2(i).x = rang And bateau4_2(i).y = colonne) Then
+            Set bateau4_2(i) = New carre
+            bateau4_2(i).x = rang
+            bateau4_2(i).y = colonne
+            bateau4_2(i).Status = coule
+            Exit Sub
+        End If
+    Next
+    For i = 0 To 2
+        If (bateau31_2(i).x = rang And bateau31_2(i).y = colonne) Then
+            Set bateau31_2(i) = New carre
+            bateau31_2(i).x = rang
+            bateau31_2(i).y = colonne
+            bateau31_2(i).Status = coule
+            Exit Sub
+        End If
+    Next
+    For i = 0 To 2
+        If (bateau32_2(i).x = rang And bateau32_2(i).y = colonne) Then
+            Set bateau32_2(i) = New carre
+            bateau32_2(i).x = rang
+            bateau32_2(i).y = colonne
+            bateau32_2(i).Status = coule
+            Exit Sub
+        End If
+    Next
+    For i = 0 To 1
+        If (bateau2_2(i).x = rang And bateau2_2(i).y = colonne) Then
+            Set bateau2_2(i) = New carre
+            bateau2_2(i).x = rang
+            bateau2_2(i).y = colonne
+            bateau2_2(i).Status = coule
+            Exit Sub
+        End If
+    Next
+End Sub
+
+Public Function is_Coule(bateau() As Variant, dimension As Integer) As Boolean
+    Dim i As Integer
+    is_Coule = False
+    For i = 0 To dimension - 1
+        If bateau(i).Status = recupere Then
+            is_Coule = False
+            Exit Function
+        End If
+    Next
+    is_Coule = True
+End Function
+
+Public Sub coule_Affichage()
+    Dim i As Integer
+    ' Affichage un bateau coule de joueur 1
+    If is_Coule(bateau5_1, 5) = True Then
+            For i = 0 To 4
+                Cells(bateau5_1(i).x, bateau5_1(i).y + 11) = "X"
+            Next
+    End If
+    If is_Coule(bateau4_1, 4) = True Then
+            For i = 0 To 3
+                Cells(bateau4_1(i).x, bateau4_1(i).y + 11) = "X"
+            Next
+    End If
+    If is_Coule(bateau31_1, 3) = True Then
+            For i = 0 To 2
+                Cells(bateau31_1(i).x, bateau31_1(i).y + 11) = "X"
+            Next
+    End If
+    If is_Coule(bateau32_1, 3) = True Then
+            For i = 0 To 2
+                Cells(bateau32_1(i).x, bateau32_1(i).y + 11) = "X"
+            Next
+    End If
+    If is_Coule(bateau2_1, 2) = True Then
+            For i = 0 To 1
+                Cells(bateau2_1(i).x, bateau2_1(i).y + 11) = "X"
+            Next
+    End If
+    
+    ' Affichage un bateau coule de joueur 2
+    If is_Coule(bateau5_2, 5) = True Then
+            For i = 0 To 4
+                Cells(bateau5_2(i).x, CInt(bateau5_2(i).y)) = "X"
+            Next
+    End If
+    If is_Coule(bateau4_2, 4) = True Then
+            For i = 0 To 3
+                Cells(bateau4_2(i).x, CInt(bateau4_2(i).y)) = "X"
+            Next
+    End If
+    If is_Coule(bateau31_2, 3) = True Then
+            For i = 0 To 2
+                Cells(bateau31_2(i).x, CInt(bateau31_2(i).y)) = "X"
+            Next
+    End If
+    If is_Coule(bateau32_2, 3) = True Then
+            For i = 0 To 2
+                Cells(bateau32_2(i).x, CInt(bateau32_2(i).y)) = "X"
+            Next
+    End If
+    If is_Coule(bateau2_2, 2) = True Then
+            For i = 0 To 1
+                Cells(bateau2_2(i).x, CInt(bateau2_2(i).y)) = "X"
+            Next
+    End If
+End Sub
+
+Public Function is_Joueur1_Gagner() As Boolean
+    Dim test As Boolean
+    If (is_Coule(bateau5_2, 5) = False Or is_Coule(bateau4_2, 4) = False Or is_Coule(bateau31_2, 3) = False _
+    Or is_Coule(bateau32_2, 3) = False Or is_Coule(bateau2_2, 2) = False) Then
+        is_Joueur1_Gagner = False
+        Exit Function
+    End If
+    is_Joueur1_Gagner = True
+End Function
+
+Public Function is_Joueur2_Gagner() As Boolean
+    Dim test As Boolean
+    If (is_Coule(bateau5_1, 5) = False Or is_Coule(bateau4_1, 4) = False Or is_Coule(bateau31_1, 3) = False _
+    Or is_Coule(bateau32_1, 3) = False Or is_Coule(bateau2_1, 2) = False) Then
+        is_Joueur2_Gagner = False
+        Exit Function
+    End If
+    is_Joueur2_Gagner = True
+
+End Function
+
+
+
+
+
+
+
+
+
+
