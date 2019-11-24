@@ -1,5 +1,0 @@
-
-'ouvrir le commencer form pour commencer à jouer
-Private Sub Workbook_Open()
-    Commencer_Form.Show (0)
-End Sub
